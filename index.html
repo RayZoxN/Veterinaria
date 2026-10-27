@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>El rincón de las huellitas</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  /* ============ PALETA ============ */
+  :root {
+    --teal-900: #1d3f4a;
+    --teal-700: #264f5c;
+    --teal-500: #3d7686;
+    --teal-100: #e6f0f2;
+    --teal-50:  #f3f8f9;
+    --blue:     #1a3c7c;
+    --orange:   #e8a330;
+    --orange-d: #cf8e1f;
+    --orange-l: #fdf3e0;
+    --white:    #ffffff;
+    --ink:      #223239;
+    --muted:    #6b7d84;
+    --danger:   #c0392b;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body { font-family: 'Poppins', sans-serif; color: var(--ink); background: var(--white); }
+  a { text-decoration: none; color: inherit; }
+  img { max-width: 100%; display: block; }
+  section { padding: 70px 48px; }
+  .container { max-width: 1180px; margin: 0 auto; }
+
+  .section-head { text-align: center; max-width: 620px; margin: 0 auto 44px; }
+  .section-head h2 { font-size: 30px; color: var(--teal-900); }
+  .section-head h2::after { content: ""; display: block; width: 56px; height: 4px; border-radius: 4px; background: var(--orange); margin: 10px auto 12px; }
+  .section-head p { color: var(--muted); font-size: 15px; }
+
+  .btn {
+    font-family: inherit; font-weight: 600; font-size: 16px; color: var(--white);
+    border: 0; border-radius: 6px; padding: 10px 28px; cursor: pointer; display: inline-block;
+    box-shadow: 0 4px 10px rgba(0,0,0,.2); transition: transform .15s, background .2s;
+  }
+  .btn:hover { transform: translateY(-2px); }
+  .btn-login { background: var(--blue); }
+  .btn-login:hover { background: #14306a; }
+  .btn-register, .btn-orange { background: var(--orange); }
+  .btn-register:hover, .btn-orange:hover { background: var(--orange-d); }
+  .btn-outline { background: transparent; border: 2px solid var(--white); box-shadow: none; }
+  .btn-outline:hover { background: rgba(255,255,255,.12); }
+  .btn-big { padding: 14px 34px; font-size: 17px; }
+
+  .ph { background: #cfdfe3; display: grid; place-items: center; color: var(--muted); font-size: 13px; text-align: center; }
+  .ph img { width: 100%; height: 100%; object-fit: cover; }
+
+  /* ============ NAVBAR ============ */
+  .navbar {
+    position: sticky; top: 0; z-index: 50;
+    background: var(--teal-700); color: var(--white);
+    padding: 12px 48px; display: flex; align-items: center; gap: 40px;
+    box-shadow: 0 4px 14px rgba(0,0,0,.18);
+  }
+  .logo { width: 72px; height: 72px; border-radius: 50%; border: 1.5px solid rgba(255,255,255,.7); font-size: 11px; flex-shrink: 0; overflow: hidden; }
+  .nav-links { display: flex; gap: 28px; list-style: none; margin-right: auto; }
+  .nav-links a { font-size: 17px; font-weight: 500; padding: 6px 2px; border-bottom: 2px solid transparent; transition: .2s; }
+  .nav-links a:hover { border-color: var(--orange); }
+  .nav-actions { display: flex; gap: 18px; }
+  .menu-toggle { display: none; background: none; border: 0; color: var(--white); font-size: 28px; cursor: pointer; margin-left: auto; }
+
+  /* ============ HERO ============ */
+  .hero {
+    position: relative; background: var(--teal-700); color: var(--white);
+    padding: 70px 48px 150px; overflow: hidden;
+  }
+  .hero::after {
+    content: ""; position: absolute; left: 0; right: 0; bottom: -1px; height: 90px; background: var(--white);
+    clip-path: polygon(0 100%, 0 70%, 25% 55%, 60% 30%, 100% 10%, 100% 100%);
+  }
+  .hero .container { display: grid; grid-template-columns: 1.1fr 1fr; gap: 50px; align-items: center; position: relative; z-index: 1; }
+  .hero-tag { display: inline-block; background: rgba(232,163,48,.2); color: var(--orange); font-weight: 600; font-size: 13px; padding: 6px 14px; border-radius: 20px; margin-bottom: 18px; }
+  .hero h1 { font-size: 44px; line-height: 1.15; margin-bottom: 16px; }
+  .hero p { font-size: 17px; opacity: .9; margin-bottom: 28px; max-width: 480px; }
+  .hero-btns { display: flex; gap: 16px; flex-wrap: wrap; }
+  .hero-img { height: 380px; border-radius: 28px 28px 120px 28px; border: 6px solid rgba(255,255,255,.15); overflow: hidden; background: var(--teal-500); color: rgba(255,255,255,.7); }
+
+  /* ============ FRANJA INFO RÁPIDA ============ */
+  .quick { padding: 0 48px; margin-top: -90px; position: relative; z-index: 5; }
+  .quick-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+  .quick-card {
+    background: var(--white); border-radius: 16px; padding: 24px; display: flex; gap: 16px; align-items: center;
+    box-shadow: 0 10px 28px rgba(29,63,74,.15); border-bottom: 4px solid var(--teal-500);
+  }
+  .quick-card.urgent { background: var(--orange); color: var(--white); border-color: var(--orange-d); }
+  .quick-card.urgent .qc-ico { background: rgba(255,255,255,.25); }
+  .qc-ico { width: 54px; height: 54px; border-radius: 14px; background: var(--teal-100); display: grid; place-items: center; font-size: 26px; flex-shrink: 0; }
+  .quick-card h4 { font-size: 16px; }
+  .quick-card p { font-size: 13px; opacity: .85; }
+
+  /* ============ SERVICIOS ============ */
+  .services { background: var(--white); padding-top: 90px; }
+  .services-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+  .service {
+    background: var(--teal-50); border-radius: 16px; padding: 30px 24px; text-align: center;
+    border: 1px solid var(--teal-100); transition: .25s;
+  }
+  .service:hover { background: var(--teal-700); color: var(--white); transform: translateY(-6px); box-shadow: 0 14px 30px rgba(29,63,74,.25); }
+  .service:hover h3 { color: var(--white); }
+  .service:hover p { color: rgba(255,255,255,.8); }
+  .service .ico { width: 70px; height: 70px; margin: 0 auto 16px; border-radius: 50%; background: var(--orange-l); display: grid; place-items: center; font-size: 32px; }
+  .service h3 { font-size: 18px; color: var(--teal-900); margin-bottom: 8px; }
+  .service p { font-size: 14px; color: var(--muted); }
+
+  /* ============ BANDA AGENDAR CITA ============ */
+  .cita { background: var(--teal-900); color: var(--white); }
+  .cita .container { display: grid; grid-template-columns: 1fr 1fr; gap: 50px; align-items: center; }
+  .cita h2 { font-size: 32px; margin-bottom: 12px; }
+  .cita h2 span { color: var(--orange); }
+  .cita p { opacity: .85; margin-bottom: 22px; }
+  .steps { list-style: none; display: flex; flex-direction: column; gap: 14px; }
+  .steps li { display: flex; gap: 14px; align-items: center; font-size: 15px; }
+  .steps b { width: 34px; height: 34px; border-radius: 50%; background: var(--orange); display: grid; place-items: center; flex-shrink: 0; }
+  .cita-form { background: var(--white); border-radius: 18px; padding: 30px; color: var(--ink); display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .cita-form h3 { grid-column: 1 / -1; color: var(--teal-900); }
+  .cita-form .full { grid-column: 1 / -1; }
+
+  /* campos reutilizables */
+  .field label { display: block; font-size: 13px; font-weight: 500; color: var(--teal-900); margin-bottom: 6px; }
+  .field input, .field select, .field textarea {
+    width: 100%; font-family: inherit; font-size: 15px; padding: 11px 14px;
+    border: 1.5px solid #cdd9dd; border-radius: 8px; outline: none; transition: .2s; color: var(--ink); background: var(--white);
+  }
+  .field input:focus, .field select:focus, .field textarea:focus { border-color: var(--teal-500); box-shadow: 0 0 0 3px rgba(61,118,134,.18); }
+
+  /* ============ NOSOTROS / EQUIPO ============ */
+  .about { background: var(--teal-50); }
+  .about-top { display: grid; grid-template-columns: 1fr 1fr; gap: 50px; align-items: center; margin-bottom: 60px; }
+  .about-img { height: 340px; border-radius: 120px 28px 28px 28px; overflow: hidden; }
+  .about-text h2 { font-size: 30px; color: var(--teal-900); margin-bottom: 14px; }
+  .about-text h2::after { content: ""; display: block; width: 56px; height: 4px; border-radius: 4px; background: var(--orange); margin-top: 10px; }
+  .about-text p { color: var(--muted); margin-bottom: 20px; }
+  .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+  .stat { background: var(--white); border-radius: 12px; padding: 16px; text-align: center; border-top: 4px solid var(--orange); }
+  .stat b { display: block; font-size: 26px; color: var(--teal-700); }
+  .stat span { font-size: 12px; color: var(--muted); }
+  .team { display: grid; grid-template-columns: repeat(4, 1fr); gap: 22px; }
+  .member { background: var(--white); border-radius: 16px; overflow: hidden; text-align: center; box-shadow: 0 6px 16px rgba(29,63,74,.1); }
+  .member .ph { height: 220px; }
+  .member h4 { color: var(--teal-900); margin-top: 14px; }
+  .member p { font-size: 13px; color: var(--orange-d); font-weight: 500; padding-bottom: 16px; }
+
+  /* ============ ARTÍCULOS ============ */
+  .articles-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+  .article { border-radius: 16px; overflow: hidden; border: 1px solid var(--teal-100); transition: .25s; background: var(--white); }
+  .article:hover { box-shadow: 0 12px 26px rgba(29,63,74,.15); transform: translateY(-4px); }
+  .article .ph { height: 180px; }
+  .article-body { padding: 20px; }
+  .article-body small { color: var(--orange-d); font-weight: 600; }
+  .article-body h4 { margin: 6px 0 8px; color: var(--teal-900); }
+  .article-body p { font-size: 14px; color: var(--muted); }
+
+  /* ============ GALERÍA ============ */
+  .gallery { background: var(--teal-100); }
+  .gallery-grid { display: grid; grid-template-columns: repeat(4, 1fr); grid-auto-rows: 200px; gap: 14px; }
+  .gallery-grid .ph { border-radius: 14px; overflow: hidden; background: #b9d0d6; }
+  .gallery-grid .tall { grid-row: span 2; }
+  .gallery-grid .wide { grid-column: span 2; }
+
+  /* ============ TIENDA (secundaria, aparte) ============ */
+  .shop { background: var(--white); padding: 50px 48px 60px; border-top: 3px dashed var(--teal-100); }
+  .shop-wrap { background: var(--orange-l); border-radius: 22px; padding: 30px 34px 20px; }
+  .shop-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 18px; gap: 16px; flex-wrap: wrap; }
+  .shop-head h2 { font-size: 22px; color: var(--teal-900); }
+  .shop-head small { display: block; color: var(--muted); font-size: 13px; font-weight: 400; }
+  .arrows { display: flex; gap: 10px; }
+  .arrow { width: 38px; height: 38px; border-radius: 50%; border: 0; cursor: pointer; background: var(--teal-700); color: var(--white); font-size: 18px; transition: .2s; }
+  .arrow:hover { background: var(--orange); }
+  .track { display: flex; gap: 18px; overflow-x: auto; scroll-snap-type: x mandatory; padding: 4px 2px 16px; scrollbar-width: thin; scrollbar-color: var(--orange) transparent; }
+  .card { flex: 0 0 200px; scroll-snap-align: start; background: var(--white); border-radius: 12px; overflow: hidden; box-shadow: 0 4px 12px rgba(29,63,74,.1); display: flex; flex-direction: column; }
+  .card .ph { height: 130px; }
+  .card-body { padding: 12px 14px 14px; display: flex; flex-direction: column; gap: 4px; flex: 1; }
+  .card-title { font-weight: 600; font-size: 14px; color: var(--teal-900); }
+  .card-foot { margin-top: auto; display: flex; align-items: center; justify-content: space-between; padding-top: 8px; }
+  .price { font-weight: 600; color: var(--teal-700); }
+  .btn-add { background: var(--orange); font-size: 12px; padding: 6px 12px; box-shadow: none; }
+  .btn-add:hover { background: var(--orange-d); }
+
+  /* ============ FOOTER ============ */
+  footer { background: var(--teal-900); color: rgba(255,255,255,.85); padding: 50px 48px 20px; }
+  .footer-grid { display: grid; grid-template-columns: 1.4fr 1fr 1fr 1fr; gap: 36px; margin-bottom: 30px; }
+  footer h5 { color: var(--orange); font-size: 15px; margin-bottom: 14px; }
+  footer p, footer li { font-size: 14px; margin-bottom: 8px; list-style: none; }
+  footer a:hover { color: var(--orange); }
+  .copy { text-align: center; font-size: 12px; opacity: .6; border-top: 1px solid rgba(255,255,255,.15); padding-top: 18px; }
+
+  /* ============ MODAL LOGIN ============ */
+  .overlay { position: fixed; inset: 0; background: rgba(20,40,48,.65); backdrop-filter: blur(3px); display: none; align-items: center; justify-content: center; padding: 20px; z-index: 100; }
+  .overlay.open { display: flex; }
+  .modal { width: 100%; max-width: 400px; background: var(--white); border-radius: 18px; overflow: hidden; box-shadow: 0 20px 50px rgba(0,0,0,.4); animation: pop .25s ease; }
+  @keyframes pop { from { opacity: 0; transform: translateY(14px) scale(.97); } to { opacity: 1; transform: none; } }
+  .modal-top { background: var(--teal-700); color: var(--white); text-align: center; padding: 26px 20px 34px; position: relative; }
+  .modal-top::after { content: ""; position: absolute; left: 0; right: 0; bottom: -1px; height: 22px; background: var(--white); clip-path: polygon(0 100%, 0 60%, 50% 20%, 100% 55%, 100% 100%); }
+  .modal-logo { width: 64px; height: 64px; border-radius: 50%; border: 1.5px solid rgba(255,255,255,.7); margin: 0 auto 10px; font-size: 10px; overflow: hidden; }
+  .modal-top h3 { font-size: 20px; font-weight: 600; }
+  .close { position: absolute; top: 12px; right: 14px; background: none; border: 0; color: var(--white); font-size: 26px; cursor: pointer; }
+  #loginForm { padding: 14px 30px 30px; display: flex; flex-direction: column; gap: 16px; }
+  .row { display: flex; justify-content: space-between; align-items: center; font-size: 13px; }
+  .row label { display: flex; align-items: center; gap: 6px; color: var(--muted); }
+  .row a { color: var(--blue); font-weight: 500; }
+  .btn-submit { width: 100%; background: var(--blue); padding: 12px; }
+  .btn-submit:hover { background: #14306a; }
+  .switch { text-align: center; font-size: 13px; color: var(--muted); }
+  .switch a { color: var(--orange-d); font-weight: 600; }
+
+  /* ============ RESPONSIVE ============ */
+  @media (max-width: 960px) {
+    section, .hero, .shop, footer { padding-left: 20px; padding-right: 20px; }
+    .navbar { padding: 10px 20px; flex-wrap: wrap; gap: 14px; }
+    .menu-toggle { display: block; }
+    .nav-links, .nav-actions { display: none; width: 100%; }
+    .navbar.open .nav-links { display: flex; flex-direction: column; gap: 10px; }
+    .navbar.open .nav-actions { display: flex; }
+    .hero .container, .cita .container, .about-top { grid-template-columns: 1fr; }
+    .hero h1 { font-size: 34px; }
+    .quick { padding: 0 20px; }
+    .quick-grid, .services-grid, .articles-grid { grid-template-columns: 1fr; }
+    .team { grid-template-columns: repeat(2, 1fr); }
+    .gallery-grid { grid-template-columns: repeat(2, 1fr); }
+    .footer-grid { grid-template-columns: 1fr 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ============ NAVBAR ============ -->
+<header class="navbar" id="navbar">
+  <a href="#inicio" class="logo ph"><!-- <img src="TU_LOGO.png" alt="El rincón de las huellitas"> -->LOGO</a>
+  <button class="menu-toggle" id="menuToggle" aria-label="Menú">☰</button>
+  <ul class="nav-links">
+    <li><a href="#inicio">Inicio</a></li>
+    <li><a href="#servicios">Servicios</a></li>
+    <li><a href="#articulos">Artículos</a></li>
+    <li><a href="#galeria">Galería</a></li>
+    <li><a href="#nosotros">Nosotros</a></li>
+  </ul>
+  <div class="nav-actions">
+    <button class="btn btn-login" id="openLogin">Login</button>
+    <button class="btn btn-register">Registrarme</button>
+  </div>
+</header>
+
+<main>
+  <!-- ============ HERO ============ -->
+  <section class="hero" id="inicio">
+    <div class="container">
+      <div>
+        <span class="hero-tag">Frase corta / etiqueta</span>
+        <h1>Título principal de la veterinaria</h1>
+        <p>Subtítulo o descripción breve de lo que ofrece la clínica.</p>
+        <div class="hero-btns">
+          <a href="#cita" class="btn btn-orange btn-big">Agendar cita</a>
+          <a href="#servicios" class="btn btn-outline btn-big">Ver servicios</a>
+        </div>
+      </div>
+      <div class="hero-img ph"><!-- <img src="hero.jpg" alt=""> -->Imagen principal</div>
+    </div>
+  </section>
+
+  <!-- ============ INFO RÁPIDA ============ -->
+  <div class="quick">
+    <div class="container quick-grid">
+      <div class="quick-card urgent">
+        <div class="qc-ico">🚨</div>
+        <div><h4>Urgencias</h4><p>Teléfono / horario de urgencias</p></div>
+      </div>
+      <div class="quick-card">
+        <div class="qc-ico">🕒</div>
+        <div><h4>Horario de atención</h4><p>Lunes a sábado · 00:00 – 00:00</p></div>
+      </div>
+      <div class="quick-card">
+        <div class="qc-ico">📍</div>
+        <div><h4>Ubicación</h4><p>Dirección de la clínica</p></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ SERVICIOS ============ -->
+  <section class="services" id="servicios">
+    <div class="container">
+      <div class="section-head">
+        <h2>Nuestros servicios</h2>
+        <p>Descripción general de los servicios de la clínica.</p>
+      </div>
+      <div class="services-grid">
+        <div class="service"><div class="ico">🩺</div><h3>Consulta general</h3><p>Descripción breve</p></div>
+        <div class="service"><div class="ico">💉</div><h3>Vacunación</h3><p>Descripción breve</p></div>
+        <div class="service"><div class="ico">🐛</div><h3>Desparasitación</h3><p>Descripción breve</p></div>
+        <div class="service"><div class="ico">🔬</div><h3>Laboratorio y diagnóstico</h3><p>Descripción breve</p></div>
+        <div class="service"><div class="ico">⚕️</div><h3>Cirugía</h3><p>Descripción breve</p></div>
+        <div class="service"><div class="ico">🛁</div><h3>Estética y baño</h3><p>Descripción breve</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ AGENDAR CITA ============ -->
+  <section class="cita" id="cita">
+    <div class="container">
+      <div>
+        <h2>Agenda la cita de tu <span>mascota</span></h2>
+        <p>Texto breve invitando a agendar.</p>
+        <ul class="steps">
+          <li><b>1</b> Llena el formulario</li>
+          <li><b>2</b> Te confirmamos tu horario</li>
+          <li><b>3</b> Visitas la clínica</li>
+        </ul>
+      </div>
+      <form class="cita-form" onsubmit="event.preventDefault()">
+        <h3>Solicitar cita</h3>
+        <div class="field"><label>Tu nombre</label><input type="text" placeholder="Nombre completo"></div>
+        <div class="field"><label>Teléfono</label><input type="tel" placeholder="000 000 0000"></div>
+        <div class="field"><label>Nombre de la mascota</label><input type="text"></div>
+        <div class="field"><label>Especie</label><select><option>Perro</option><option>Gato</option><option>Otro</option></select></div>
+        <div class="field"><label>Servicio</label><select><option>Consulta general</option><option>Vacunación</option><option>Cirugía</option></select></div>
+        <div class="field"><label>Fecha</label><input type="date"></div>
+        <div class="field full"><label>Motivo</label><textarea rows="3"></textarea></div>
+        <button class="btn btn-orange full" style="grid-column:1/-1">Enviar solicitud</button>
+      </form>
+    </div>
+  </section>
+
+  <!-- ============ NOSOTROS ============ -->
+  <section class="about" id="nosotros">
+    <div class="container">
+      <div class="about-top">
+        <div class="about-img ph"><!-- <img src="clinica.jpg" alt=""> -->Imagen de la clínica</div>
+        <div class="about-text">
+          <h2>Sobre nosotros</h2>
+          <p>Historia, misión y valores de la veterinaria.</p>
+          <div class="stats">
+            <div class="stat"><b>00+</b><span>Años de experiencia</span></div>
+            <div class="stat"><b>000+</b><span>Pacientes atendidos</span></div>
+            <div class="stat"><b>00</b><span>Especialistas</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="section-head"><h2>Nuestro equipo</h2></div>
+      <div class="team">
+        <div class="member"><div class="ph">Foto</div><h4>Nombre</h4><p>Cargo / especialidad</p></div>
+        <div class="member"><div class="ph">Foto</div><h4>Nombre</h4><p>Cargo / especialidad</p></div>
+        <div class="member"><div class="ph">Foto</div><h4>Nombre</h4><p>Cargo / especialidad</p></div>
+        <div class="member"><div class="ph">Foto</div><h4>Nombre</h4><p>Cargo / especialidad</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ ARTÍCULOS ============ -->
+  <section id="articulos">
+    <div class="container">
+      <div class="section-head"><h2>Artículos y consejos</h2><p>Cuidados y salud para tu mascota.</p></div>
+      <div class="articles-grid">
+        <a href="#" class="article"><div class="ph">Imagen</div><div class="article-body"><small>Categoría</small><h4>Título del artículo</h4><p>Resumen breve del artículo.</p></div></a>
+        <a href="#" class="article"><div class="ph">Imagen</div><div class="article-body"><small>Categoría</small><h4>Título del artículo</h4><p>Resumen breve del artículo.</p></div></a>
+        <a href="#" class="article"><div class="ph">Imagen</div><div class="article-body"><small>Categoría</small><h4>Título del artículo</h4><p>Resumen breve del artículo.</p></div></a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ GALERÍA ============ -->
+  <section class="gallery" id="galeria">
+    <div class="container">
+      <div class="section-head"><h2>Galería</h2><p>Nuestros pacientes y nuestra clínica.</p></div>
+      <div class="gallery-grid">
+        <div class="ph tall">Foto</div>
+        <div class="ph">Foto</div>
+        <div class="ph wide">Foto</div>
+        <div class="ph">Foto</div>
+        <div class="ph wide">Foto</div>
+        <div class="ph">Foto</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ TIENDA (secundaria) ============ -->
+  <section class="shop" id="tienda">
+    <div class="container">
+      <div class="shop-wrap">
+        <div class="shop-head">
+          <h2>🛍️ Tienda<small>Productos disponibles en clínica</small></h2>
+          <div class="arrows">
+            <button class="arrow" id="prev" aria-label="Anterior">‹</button>
+            <button class="arrow" id="next" aria-label="Siguiente">›</button>
+          </div>
+        </div>
+        <div class="track" id="track">
+          <!-- Copia y pega esta tarjeta por cada producto -->
+          <article class="card"><div class="ph">Imagen</div><div class="card-body"><span class="card-title">Producto</span><div class="card-foot"><span class="price">$000</span><button class="btn btn-add">Agregar</button></div></div></article>
+          <article class="card"><div class="ph">Imagen</div><div class="card-body"><span class="card-title">Producto</span><div class="card-foot"><span class="price">$000</span><button class="btn btn-add">Agregar</button></div></div></article>
+          <article class="card"><div class="ph">Imagen</div><div class="card-body"><span class="card-title">Producto</span><div class="card-foot"><span class="price">$000</span><button class="btn btn-add">Agregar</button></div></div></article>
+          <article class="card"><div class="ph">Imagen</div><div class="card-body"><span class="card-title">Producto</span><div class="card-foot"><span class="price">$000</span><button class="btn btn-add">Agregar</button></div></div></article>
+          <article class="card"><div class="ph">Imagen</div><div class="card-body"><span class="card-title">Producto</span><div class="card-foot"><span class="price">$000</span><button class="btn btn-add">Agregar</button></div></div></article>
+          <article class="card"><div class="ph">Imagen</div><div class="card-body"><span class="card-title">Producto</span><div class="card-foot"><span class="price">$000</span><button class="btn btn-add">Agregar</button></div></div></article>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<!-- ============ FOOTER ============ -->
+<footer>
+  <div class="container footer-grid">
+    <div><h5>El rincón de las huellitas</h5><p>Descripción corta de la clínica.</p></div>
+    <div><h5>Enlaces</h5><ul><li><a href="#inicio">Inicio</a></li><li><a href="#servicios">Servicios</a></li><li><a href="#articulos">Artículos</a></li><li><a href="#nosotros">Nosotros</a></li></ul></div>
+    <div><h5>Contacto</h5><ul><li>📞 Teléfono</li><li>✉️ Correo</li><li>📍 Dirección</li></ul></div>
+    <div><h5>Síguenos</h5><ul><li>Facebook</li><li>Instagram</li><li>WhatsApp</li></ul></div>
+  </div>
+  <p class="copy">© 2026 El rincón de las huellitas. Todos los derechos reservados.</p>
+</footer>
+
+<!-- ============ MODAL LOGIN ============ -->
+<div class="overlay" id="overlay">
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="loginTitle">
+    <div class="modal-top">
+      <button class="close" id="closeLogin" aria-label="Cerrar">×</button>
+      <div class="modal-logo ph"><!-- <img src="TU_LOGO.png" alt=""> -->LOGO</div>
+      <h3 id="loginTitle">Iniciar sesión</h3>
+    </div>
+    <form id="loginForm">
+      <!-- CAMPOS: ajústalos a los de tu segunda foto -->
+      <div class="field"><label for="user">Correo electrónico</label><input type="email" id="user" placeholder="tucorreo@ejemplo.com" required></div>
+      <div class="field"><label for="pass">Contraseña</label><input type="password" id="pass" placeholder="••••••••" required></div>
+      <div class="row"><label><input type="checkbox"> Recordarme</label><a href="#">¿Olvidaste tu contraseña?</a></div>
+      <button type="submit" class="btn btn-submit">Iniciar sesión</button>
+      <p class="switch">¿No tienes cuenta? <a href="#">Regístrate</a></p>
+    </form>
+  </div>
+</div>
+
+<script>
+  const overlay = document.getElementById('overlay');
+  const open  = () => overlay.classList.add('open');
+  const close = () => overlay.classList.remove('open');
+  document.getElementById('openLogin').addEventListener('click', open);
+  document.getElementById('closeLogin').addEventListener('click', close);
+  overlay.addEventListener('click', e => { if (e.target === overlay) close(); });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') close(); });
+
+  const track = document.getElementById('track');
+  const step = () => track.querySelector('.card').offsetWidth + 18;
+  document.getElementById('next').addEventListener('click', () => track.scrollBy({ left: step(), behavior: 'smooth' }));
+  document.getElementById('prev').addEventListener('click', () => track.scrollBy({ left: -step(), behavior: 'smooth' }));
+
+  document.getElementById('menuToggle').addEventListener('click', () =>
+    document.getElementById('navbar').classList.toggle('open'));
+
+  document.getElementById('loginForm').addEventListener('submit', e => {
+    e.preventDefault();
+    // TODO: enviar datos a tu servidor
+  });
+</script>
+</body>
+</html>
